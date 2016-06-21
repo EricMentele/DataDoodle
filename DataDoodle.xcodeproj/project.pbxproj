@@ -16,8 +16,11 @@
 		8CF6488C1D18FCFF006B03DD /* DataDoodleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF6488B1D18FCFF006B03DD /* DataDoodleTests.m */; };
 		8CF648971D18FCFF006B03DD /* DataDoodleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648961D18FCFF006B03DD /* DataDoodleUITests.m */; };
 		8CF648A71D18FE6C006B03DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF648A61D18FE6C006B03DD /* CoreData.framework */; };
-		8CF648AC1D19013B006B03DD /* DataTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648AA1D19013B006B03DD /* DataTest.xcdatamodeld */; };
 		8CF648B21D190227006B03DD /* DevBiz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */; };
+		C87DEA3B1D19A14500D6C83D /* _Developer.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA341D19A14500D6C83D /* _Developer.m */; };
+		C87DEA3C1D19A14500D6C83D /* _DevShop.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA361D19A14500D6C83D /* _DevShop.m */; };
+		C87DEA3D1D19A14500D6C83D /* Developer.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA381D19A14500D6C83D /* Developer.m */; };
+		C87DEA3E1D19A14500D6C83D /* DevShop.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA3A1D19A14500D6C83D /* DevShop.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,8 +58,15 @@
 		8CF648961D18FCFF006B03DD /* DataDoodleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataDoodleUITests.m; sourceTree = "<group>"; };
 		8CF648981D18FCFF006B03DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8CF648A61D18FE6C006B03DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		8CF648AB1D19013B006B03DD /* DataTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataTest.xcdatamodel; sourceTree = "<group>"; };
 		8CF648B11D190227006B03DD /* DevBiz.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DevBiz.xcdatamodel; sourceTree = "<group>"; };
+		C87DEA331D19A14500D6C83D /* _Developer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Developer.h; sourceTree = "<group>"; };
+		C87DEA341D19A14500D6C83D /* _Developer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Developer.m; sourceTree = "<group>"; };
+		C87DEA351D19A14500D6C83D /* _DevShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DevShop.h; sourceTree = "<group>"; };
+		C87DEA361D19A14500D6C83D /* _DevShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DevShop.m; sourceTree = "<group>"; };
+		C87DEA371D19A14500D6C83D /* Developer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Developer.h; sourceTree = "<group>"; };
+		C87DEA381D19A14500D6C83D /* Developer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Developer.m; sourceTree = "<group>"; };
+		C87DEA391D19A14500D6C83D /* DevShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevShop.h; sourceTree = "<group>"; };
+		C87DEA3A1D19A14500D6C83D /* DevShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DevShop.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +129,6 @@
 				8CF6487F1D18FCFF006B03DD /* LaunchScreen.storyboard */,
 				8CF648821D18FCFF006B03DD /* Info.plist */,
 				8CF648711D18FCFF006B03DD /* Supporting Files */,
-				8CF648AA1D19013B006B03DD /* DataTest.xcdatamodeld */,
 			);
 			path = DataDoodle;
 			sourceTree = "<group>";
@@ -153,6 +162,14 @@
 		8CF648AF1D19017D006B03DD /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				C87DEA331D19A14500D6C83D /* _Developer.h */,
+				C87DEA341D19A14500D6C83D /* _Developer.m */,
+				C87DEA351D19A14500D6C83D /* _DevShop.h */,
+				C87DEA361D19A14500D6C83D /* _DevShop.m */,
+				C87DEA371D19A14500D6C83D /* Developer.h */,
+				C87DEA381D19A14500D6C83D /* Developer.m */,
+				C87DEA391D19A14500D6C83D /* DevShop.h */,
+				C87DEA3A1D19A14500D6C83D /* DevShop.m */,
 				8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */,
 			);
 			path = DataModel;
@@ -289,10 +306,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CF648791D18FCFF006B03DD /* ViewController.m in Sources */,
+				C87DEA3C1D19A14500D6C83D /* _DevShop.m in Sources */,
+				C87DEA3B1D19A14500D6C83D /* _Developer.m in Sources */,
 				8CF648B21D190227006B03DD /* DevBiz.xcdatamodeld in Sources */,
+				C87DEA3D1D19A14500D6C83D /* Developer.m in Sources */,
+				C87DEA3E1D19A14500D6C83D /* DevShop.m in Sources */,
 				8CF648761D18FCFF006B03DD /* AppDelegate.m in Sources */,
 				8CF648731D18FCFF006B03DD /* main.m in Sources */,
-				8CF648AC1D19013B006B03DD /* DataTest.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,17 +559,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		8CF648AA1D19013B006B03DD /* DataTest.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				8CF648AB1D19013B006B03DD /* DataTest.xcdatamodel */,
-			);
-			currentVersion = 8CF648AB1D19013B006B03DD /* DataTest.xcdatamodel */;
-			name = DataTest.xcdatamodeld;
-			path = "Data Model/DataTest.xcdatamodeld";
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
