@@ -15,6 +15,9 @@
 		8CF648811D18FCFF006B03DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6487F1D18FCFF006B03DD /* LaunchScreen.storyboard */; };
 		8CF6488C1D18FCFF006B03DD /* DataDoodleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF6488B1D18FCFF006B03DD /* DataDoodleTests.m */; };
 		8CF648971D18FCFF006B03DD /* DataDoodleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648961D18FCFF006B03DD /* DataDoodleUITests.m */; };
+		8CF648A71D18FE6C006B03DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF648A61D18FE6C006B03DD /* CoreData.framework */; };
+		8CF648AC1D19013B006B03DD /* DataTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648AA1D19013B006B03DD /* DataTest.xcdatamodeld */; };
+		8CF648B21D190227006B03DD /* DevBiz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		8CF648921D18FCFF006B03DD /* DataDoodleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataDoodleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CF648961D18FCFF006B03DD /* DataDoodleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataDoodleUITests.m; sourceTree = "<group>"; };
 		8CF648981D18FCFF006B03DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8CF648A61D18FE6C006B03DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8CF648AB1D19013B006B03DD /* DataTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataTest.xcdatamodel; sourceTree = "<group>"; };
+		8CF648B11D190227006B03DD /* DevBiz.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DevBiz.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CF648A71D18FE6C006B03DD /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +88,7 @@
 		8CF648651D18FCFF006B03DD = {
 			isa = PBXGroup;
 			children = (
+				8CF648A61D18FE6C006B03DD /* CoreData.framework */,
 				8CF648701D18FCFF006B03DD /* DataDoodle */,
 				8CF6488A1D18FCFF006B03DD /* DataDoodleTests */,
 				8CF648951D18FCFF006B03DD /* DataDoodleUITests */,
@@ -101,6 +109,7 @@
 		8CF648701D18FCFF006B03DD /* DataDoodle */ = {
 			isa = PBXGroup;
 			children = (
+				8CF648AF1D19017D006B03DD /* DataModel */,
 				8CF648741D18FCFF006B03DD /* AppDelegate.h */,
 				8CF648751D18FCFF006B03DD /* AppDelegate.m */,
 				8CF648771D18FCFF006B03DD /* ViewController.h */,
@@ -110,6 +119,7 @@
 				8CF6487F1D18FCFF006B03DD /* LaunchScreen.storyboard */,
 				8CF648821D18FCFF006B03DD /* Info.plist */,
 				8CF648711D18FCFF006B03DD /* Supporting Files */,
+				8CF648AA1D19013B006B03DD /* DataTest.xcdatamodeld */,
 			);
 			path = DataDoodle;
 			sourceTree = "<group>";
@@ -138,6 +148,14 @@
 				8CF648981D18FCFF006B03DD /* Info.plist */,
 			);
 			path = DataDoodleUITests;
+			sourceTree = "<group>";
+		};
+		8CF648AF1D19017D006B03DD /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */,
+			);
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,8 +289,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CF648791D18FCFF006B03DD /* ViewController.m in Sources */,
+				8CF648B21D190227006B03DD /* DevBiz.xcdatamodeld in Sources */,
 				8CF648761D18FCFF006B03DD /* AppDelegate.m in Sources */,
 				8CF648731D18FCFF006B03DD /* main.m in Sources */,
+				8CF648AC1D19013B006B03DD /* DataTest.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +516,7 @@
 				8CF6489D1D18FCFF006B03DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8CF6489E1D18FCFF006B03DD /* Build configuration list for PBXNativeTarget "DataDoodleTests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +525,7 @@
 				8CF648A01D18FCFF006B03DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8CF648A11D18FCFF006B03DD /* Build configuration list for PBXNativeTarget "DataDoodleUITests" */ = {
 			isa = XCConfigurationList;
@@ -512,8 +534,33 @@
 				8CF648A31D18FCFF006B03DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8CF648AA1D19013B006B03DD /* DataTest.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8CF648AB1D19013B006B03DD /* DataTest.xcdatamodel */,
+			);
+			currentVersion = 8CF648AB1D19013B006B03DD /* DataTest.xcdatamodel */;
+			name = DataTest.xcdatamodeld;
+			path = "Data Model/DataTest.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8CF648B11D190227006B03DD /* DevBiz.xcdatamodel */,
+			);
+			currentVersion = 8CF648B11D190227006B03DD /* DevBiz.xcdatamodel */;
+			path = DevBiz.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8CF648661D18FCFF006B03DD /* Project object */;
 }
