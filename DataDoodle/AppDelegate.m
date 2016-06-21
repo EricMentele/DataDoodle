@@ -4,9 +4,12 @@
 //
 //  Created by Eric Mentele on 6/20/16.
 //  Copyright © 2016 Eric Mentele. All rights reserved.
-//
+//http://nsscreencast.com/episodes/11-core-data-basics
 
 #import "AppDelegate.h"
+#import "DevShop.h"
+#import "Developer.h"
+#import "DevBizDataModel.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +19,21 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    NSManagedObjectContext *context = [[DevBizDataModel sharedDataModel] mainContext];
+    if (context) {
+        NSLog(@"Context is ready!");
+        
+        Developer *dev = [Developer insertInManagedObjectContext:context];
+        dev.name = @"Sir Codealot";
+        DevShop *codeShop = [DevShop insertInManagedObjectContext:context];
+        codeShop.companyName = @"Bit Swizzlers";
+        codeShop.numberOfEmployees = [NSNumber numberWithInt:10];
+        
+        [context save:nil];
+    } else {
+        NSLog(@"Context was nil :(");
+    }
     return YES;
 }
 
