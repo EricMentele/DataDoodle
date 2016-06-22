@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+#import "DevBizDataModel.h"
+#import "Developer.h"
 
 @interface CompanyRosterTableViewController : UITableViewController
+
+@property (weak) NSManagedObjectContext *managedObjectContext;
 
 @end

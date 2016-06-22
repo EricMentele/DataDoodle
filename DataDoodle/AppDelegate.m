@@ -28,7 +28,8 @@
         dev.name = @"Sir Codealot";
         DevShop *codeShop = [DevShop insertInManagedObjectContext:context];
         codeShop.companyName = @"Bit Swizzlers";
-        codeShop.numberOfEmployees = [NSNumber numberWithInt:10];
+        codeShop.numberOfEmployees = [NSNumber numberWithInt:1];
+        [codeShop addDevelopersObject: dev];
         
         [context save:nil];
     } else {
