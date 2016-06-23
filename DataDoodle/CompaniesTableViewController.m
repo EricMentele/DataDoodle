@@ -79,6 +79,7 @@ typedef enum {
     DevShop *shop = (DevShop*)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = shop.companyName;
+    cell.detailTextLabel.text = [NSString stringWithFormat: @"Employees: %@", shop.numberOfEmployees];
     return cell;
 }
 
