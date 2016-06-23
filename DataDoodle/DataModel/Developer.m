@@ -1,13 +1,15 @@
+//
+//  Developer.m
+//  DataDoodle
+//
+//  Created by Eric Mentele on 6/23/16.
+//  Copyright © 2016 Eric Mentele. All rights reserved.
+//
+
 #import "Developer.h"
-
-@interface Developer ()
-
-// Private interface goes here.
-
-@end
+#import "DevShop.h"
 
 @implementation Developer
 
-// Custom logic goes here.
 
 @end

@@ -54,13 +54,13 @@
         
         // loop through company names and create a company for each.
         for (NSString *name in companyNames) {
-            DevShop *codeShop = [DevShop insertInManagedObjectContext:context];
+            DevShop *codeShop = [NSEntityDescription insertNewObjectForEntityForName:@"DevShop" inManagedObjectContext:context];
             codeShop.companyName = name;
             
             NSUInteger numberOfDevelopers = arc4random_uniform((int)[developerNames count]);
             
             for (int i = 0; i < numberOfDevelopers; i+=1) {
-                Developer *dev = [Developer insertInManagedObjectContext:context];
+                Developer *dev = [NSEntityDescription insertNewObjectForEntityForName:@"Developer" inManagedObjectContext:context];
                 dev.name = developerNames[i];
                 [codeShop addDevelopersObject: dev];
             }

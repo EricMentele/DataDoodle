@@ -55,10 +55,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-//    NSArray *sections = [self.fetchedResultsController sections];
-//    id<NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
-    
     if (section == 0) {
         return [self.devShop.entity attributesByName].count;
     } else if (section == 1) {

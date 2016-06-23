@@ -3,13 +3,13 @@
     <entity name="Developer" representedClassName="Developer" syncable="YES">
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="salary" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="startDate" attributeType="Date" indexed="YES" syncable="YES"/>
-        <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" indexed="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="devShop" maxCount="1" deletionRule="Nullify" destinationEntity="DevShop" inverseName="developers" inverseEntity="DevShop" syncable="YES"/>
     </entity>
     <entity name="DevShop" representedClassName="DevShop" syncable="YES">
         <attribute name="companyName" attributeType="String" syncable="YES"/>
-        <attribute name="founded" attributeType="Date" syncable="YES"/>
+        <attribute name="founded" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="numberOfEmployees" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="revenue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="developers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Developer" inverseName="devShop" inverseEntity="Developer" syncable="YES"/>

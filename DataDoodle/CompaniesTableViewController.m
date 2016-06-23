@@ -9,10 +9,16 @@
 #import "CompaniesTableViewController.h"
 #import "CompanyRosterTableViewController.h"
 
+typedef enum {
+    ShopName,
+    ShopEmployeeCount
+}SortBy;
+
 @interface CompaniesTableViewController () <NSFetchedResultsControllerDelegate>
 
 @property NSFetchedResultsController *fetchedResultsController;
 @property DevShop *devShopToPass;
+@property SortBy sortBy;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortOrderButton;
 
@@ -23,27 +29,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.sortBy = ShopName;
     self.managedObjectContext = [[DevBizDataModel sharedDataModel] mainContext];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"DevShop"];
-    NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey:@"companyName" ascending:YES];
-    [request setSortDescriptors:[NSArray arrayWithObject:nameSort]];
-    
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:nil];
-    
-    [self.fetchedResultsController setDelegate:self];
-    
-    NSError *error = nil;
-    NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
-    
-    [self setFetchedResultsController: self.fetchedResultsController];
+    [self getShopsAscending:true byNameOrEmployeeCount: ShopName];
 }
 
 - (IBAction)sortByControlChanged:(UISegmentedControl *)sender {
-    // tag1 == CompanyName, tag2 == Employee Count
+    // tag0 == CompanyName, tag1 == Employee Count
+    BOOL ascending = [self.sortOrderButton.title  isEqual: @"Ascending"] ? false : true;
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
+    if (selectedSegment == 0) {
+        self.sortBy = ShopName;
+        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy];
+    } else if (selectedSegment == 1) {
+        self.sortBy = ShopEmployeeCount;
+        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy];
+    }
 }
 
+// TODO: Fix backwards sort for employee number.
 - (IBAction)sortOrderButtonPressed:(UIBarButtonItem *)sender {
+    if ([self.sortOrderButton.title  isEqualToString: @"Ascending"]) {
+        [self.sortOrderButton setTitle: @"Descending"];
+        [self getShopsAscending:true byNameOrEmployeeCount:self.sortBy];
+    } else if ([self.sortOrderButton.title isEqualToString:@"Descending"]) {
+        [self.sortOrderButton setTitle: @"Ascending"];
+        [self getShopsAscending:false byNameOrEmployeeCount:self.sortBy];
+    }
 }
 
 #pragma mark - Table view data source
@@ -83,6 +97,29 @@
         CompanyRosterTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.devShop = self.devShopToPass;
     }
+}
+
+- (void)getShopsAscending:(BOOL)ascending byNameOrEmployeeCount:(SortBy)sortType {
+    NSString *sortBy;
+    if (sortType == ShopName) {
+        sortBy = @"companyName";
+    } else if (sortType == ShopEmployeeCount) {
+        sortBy = @"numberOfEmployees";
+    }
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"DevShop"];
+    NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey: sortBy ascending: ascending];
+    [request setSortDescriptors:[NSArray arrayWithObject:nameSort]];
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName: nil];
+    
+    [self.fetchedResultsController setDelegate:self];
+    
+    NSError *error = nil;
+    NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
+    
+    [self setFetchedResultsController: self.fetchedResultsController];
+    [self.tableView reloadData];
 }
 
 @end

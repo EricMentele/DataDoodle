@@ -37,12 +37,15 @@
     if (self.managedObjectContext) {
         NSLog(@"Context is ready!");
         
-        Developer *dev = [Developer insertInManagedObjectContext:self.managedObjectContext];
+        Developer *dev = [NSEntityDescription insertNewObjectForEntityForName:@"Developer" inManagedObjectContext:self.managedObjectContext];
         dev.name = [self.employeeName text];
         
         [self.devShop addDevelopersObject: dev];
         
-        [self.managedObjectContext save:nil];
+        NSError* error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Error: %@", error);
+        }
     } else {
         NSLog(@"Context was nil :(");
     }
