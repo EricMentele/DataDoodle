@@ -12,7 +12,6 @@
 @interface CompanyRosterTableViewController () <NSFetchedResultsControllerDelegate>
 
 @property NSFetchedResultsController *fetchedResultsController;
-@property DevShop *devShop;
 
 @end
 
@@ -22,20 +21,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.managedObjectContext = [[DevBizDataModel sharedDataModel] mainContext];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"DevShop"];
-    NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey:@"companyName" ascending:YES];
-    [request setSortDescriptors:[NSArray arrayWithObject:nameSort]];
-    
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:nil];
-    
-    [self.fetchedResultsController setDelegate:self];
-    
-    NSError *error = nil;
-    NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
-    
-    [self setFetchedResultsController: self.fetchedResultsController];
-    self.devShop = (DevShop*)[self.fetchedResultsController fetchedObjects].firstObject;
+//    self.managedObjectContext = [[DevBizDataModel sharedDataModel] mainContext];
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName: @"DevShop"];
+//    NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey:@"companyName" ascending:YES];
+//    [request setSortDescriptors:[NSArray arrayWithObject:nameSort]];
+//    
+//    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:nil];
+//    
+//    [self.fetchedResultsController setDelegate:self];
+//    
+//    NSError *error = nil;
+//    NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
+//    
+//    [self setFetchedResultsController: self.fetchedResultsController];
+//    self.devShop = (DevShop*)[self.fetchedResultsController fetchedObjects];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
