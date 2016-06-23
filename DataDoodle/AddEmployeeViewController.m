@@ -9,15 +9,44 @@
 #import "AddEmployeeViewController.h"
 
 @interface AddEmployeeViewController ()
-
+@property DevShop *devShop;
 
 @end
 
 @implementation AddEmployeeViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.managedObjectContext = [[DevBizDataModel sharedDataModel]mainContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"DevShop"];
+    NSError *error;
+    NSArray *results = [self.managedObjectContext executeFetchRequest: request error: &error];
+    
+    if (!results) {
+        NSLog(@"Error fetching Employee objects: %@\n%@", [error localizedDescription], [error userInfo]);
+        abort();
+    }
+    
+    self.devShop = results.firstObject;
+}
+
+- (IBAction)saveDeveloperPressed:(UIBarButtonItem *)sender {
+    if (self.managedObjectContext) {
+        NSLog(@"Context is ready!");
+        
+        Developer *dev = [Developer insertInManagedObjectContext:self.managedObjectContext];
+        dev.name = [self.employeeName text];
+        
+        [self.devShop addDevelopersObject: dev];
+        
+        [self.managedObjectContext save:nil];
+    } else {
+        NSLog(@"Context was nil :(");
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

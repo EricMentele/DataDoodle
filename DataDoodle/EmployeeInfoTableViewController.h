@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+#import "DevBizDataModel.h"
+#import "Developer.h"
 
 @interface EmployeeInfoTableViewController : UITableViewController
 

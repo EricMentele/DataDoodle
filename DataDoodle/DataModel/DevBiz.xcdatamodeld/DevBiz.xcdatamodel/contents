@@ -10,12 +10,12 @@
     <entity name="DevShop" representedClassName="DevShop" syncable="YES">
         <attribute name="companyName" attributeType="String" syncable="YES"/>
         <attribute name="founded" attributeType="Date" syncable="YES"/>
-        <attribute name="numberOfEmployees" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="numberOfEmployees" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="revenue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="developers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Developer" inverseName="devShop" inverseEntity="Developer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DevShop" positionX="-2358" positionY="-1458" width="128" height="118"/>
         <element name="Developer" positionX="-2178" positionY="-1456" width="128" height="118"/>
+        <element name="DevShop" positionX="-2358" positionY="-1458" width="128" height="118"/>
     </elements>
 </model>

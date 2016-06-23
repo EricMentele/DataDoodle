@@ -1,4 +1,5 @@
-//
+// TODO: Add multiple with search bar. Show list of them. As you search company name use Predicate to Sort by name button, sort by number of developlers. Company list name and number of devs. Searchable by name and number of devs ascending descending. NSfetchresultscontroller and predicate focus. 
+
 //  CompanyRosterTableViewController.m
 //  DataDoodle
 //
@@ -25,7 +26,6 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"DevShop"];
     NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey:@"companyName" ascending:YES];
     [request setSortDescriptors:[NSArray arrayWithObject:nameSort]];
-    //NSFetchedResultsController *frc = nil;
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:nil];
     
@@ -36,6 +36,10 @@
     
     [self setFetchedResultsController: self.fetchedResultsController];
     self.devShop = (DevShop*)[self.fetchedResultsController fetchedObjects].firstObject;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,12 +103,13 @@
     return YES;
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView beginUpdates];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView endUpdates];
-}
+//- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+//    [self.tableView beginUpdates];
+//}
+//
+//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+//    self.tableView.reloadData;
+//    [self.tableView endUpdates];
+//}
 
 @end

@@ -16,6 +16,7 @@
 		8CF648971D18FCFF006B03DD /* DataDoodleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648961D18FCFF006B03DD /* DataDoodleUITests.m */; };
 		8CF648A71D18FE6C006B03DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF648A61D18FE6C006B03DD /* CoreData.framework */; };
 		8CF648B21D190227006B03DD /* DevBiz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CF648B01D190227006B03DD /* DevBiz.xcdatamodeld */; };
+		C8017D211D1B522E007A5C6F /* CompaniesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8017D201D1B522E007A5C6F /* CompaniesTableViewController.m */; };
 		C87DEA3B1D19A14500D6C83D /* _Developer.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA341D19A14500D6C83D /* _Developer.m */; };
 		C87DEA3C1D19A14500D6C83D /* _DevShop.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA361D19A14500D6C83D /* _DevShop.m */; };
 		C87DEA3D1D19A14500D6C83D /* Developer.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DEA381D19A14500D6C83D /* Developer.m */; };
@@ -60,6 +61,8 @@
 		8CF648981D18FCFF006B03DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8CF648A61D18FE6C006B03DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8CF648B11D190227006B03DD /* DevBiz.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DevBiz.xcdatamodel; sourceTree = "<group>"; };
+		C8017D1F1D1B522E007A5C6F /* CompaniesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompaniesTableViewController.h; sourceTree = "<group>"; };
+		C8017D201D1B522E007A5C6F /* CompaniesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompaniesTableViewController.m; sourceTree = "<group>"; };
 		C87DEA331D19A14500D6C83D /* _Developer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Developer.h; sourceTree = "<group>"; };
 		C87DEA341D19A14500D6C83D /* _Developer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Developer.m; sourceTree = "<group>"; };
 		C87DEA351D19A14500D6C83D /* _DevShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DevShop.h; sourceTree = "<group>"; };
@@ -194,6 +197,8 @@
 		C87DEA431D19DE8A00D6C83D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C8017D1F1D1B522E007A5C6F /* CompaniesTableViewController.h */,
+				C8017D201D1B522E007A5C6F /* CompaniesTableViewController.m */,
 				C87DEA451D19E1A500D6C83D /* CompanyRosterTableViewController.h */,
 				C87DEA461D19E1A500D6C83D /* CompanyRosterTableViewController.m */,
 				C87DEA481D19E63A00D6C83D /* EmployeeInfoTableViewController.h */,
@@ -351,6 +356,7 @@
 				C87DEA3E1D19A14500D6C83D /* DevShop.m in Sources */,
 				8CF648761D18FCFF006B03DD /* AppDelegate.m in Sources */,
 				8CF648731D18FCFF006B03DD /* main.m in Sources */,
+				C8017D211D1B522E007A5C6F /* CompaniesTableViewController.m in Sources */,
 				C87DEA4D1D19E65900D6C83D /* AddEmployeeViewController.m in Sources */,
 				C87DEA4A1D19E63A00D6C83D /* EmployeeInfoTableViewController.m in Sources */,
 				C87DEA411D19A78F00D6C83D /* DevBizDataModel.m in Sources */,

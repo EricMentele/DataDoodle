@@ -19,23 +19,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    NSManagedObjectContext *context = [[DevBizDataModel sharedDataModel] mainContext];
-    if (context) {
-        NSLog(@"Context is ready!");
-        
-        Developer *dev = [Developer insertInManagedObjectContext:context];
-        dev.name = @"Sir Codealot";
-        DevShop *codeShop = [DevShop insertInManagedObjectContext:context];
-        codeShop.companyName = @"Bit Swizzlers";
-        codeShop.numberOfEmployees = [NSNumber numberWithInt:1];
-        [codeShop addDevelopersObject: dev];
-        
-        [context save:nil];
-    } else {
-        NSLog(@"Context was nil :(");
-    }
-    return YES;
+    [self populateDevShops];
+        return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -58,6 +43,34 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)populateDevShops {
+    NSManagedObjectContext *context = [[DevBizDataModel sharedDataModel] mainContext];
+    if (context) {
+        NSLog(@"Context is ready!");
+        NSArray *companyNames = @[@"Bit Swizzlers", @"Crazy Coders", @"Fast Fingers", @"Dev-ils", @"Foo Solutions", @"Bar Consulting", @"Bit Floor", @"Clown Code", @"Bit Brains Software", @"Keyboard Smashers", @"Mac Hackers", @"Code Clan", @"Codetastic"];
+        NSArray *developerNames = @[@"Joe", @"Jack", @"James", @"Jill", @"Jamilia", @"Sungsil", @"Sara", @"Jasmine", @"Brett", @"Boon", @"Mandela", @"Sir Codealot"];
+        
+        // loop through company names and create a company for each.
+        for (NSString *name in companyNames) {
+            DevShop *codeShop = [DevShop insertInManagedObjectContext:context];
+            codeShop.companyName = name;
+            
+            NSUInteger numberOfDevelopers = arc4random_uniform((int)[developerNames count]);
+            
+            for (int i = 0; i < numberOfDevelopers; i+=1) {
+                Developer *dev = [Developer insertInManagedObjectContext:context];
+                dev.name = developerNames[i];
+                [codeShop addDevelopersObject: dev];
+            }
+        }
+        
+        [context save:nil];
+    } else {
+        NSLog(@"Context was nil :(");
+    }
+
 }
 
 @end
