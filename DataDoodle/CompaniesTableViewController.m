@@ -171,16 +171,13 @@ typedef enum {
         return nil;
     }
     
-    NSMutableArray* predicates = [NSMutableArray arrayWithCapacity:3];
-    [predicates addObject:[NSPredicate predicateWithFormat:@"companyName contains[cd] %@", searchString]];
-    
     NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
     if ([searchString rangeOfCharacterFromSet:notDigits].location == NSNotFound)
     {
-        [predicates addObject:[NSPredicate predicateWithFormat:@"numberOfEmployees == %ld", searchString.integerValue]];
+        return [NSPredicate predicateWithFormat:@"numberOfEmployees == %ld", searchString.integerValue];
     }
     
-    return [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
+    return [NSPredicate predicateWithFormat:@"companyName contains[cd] %@", searchString];
 }
 
 @end
