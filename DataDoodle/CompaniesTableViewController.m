@@ -23,6 +23,7 @@ typedef enum {
 
 @property SortBy sortBy;
 @property BOOL  ascending;
+@property NSMutableString *searchString;
 
 @property NSMutableArray *devShopsSearched;
 @property NSArray * devShopsToSearch;
@@ -39,7 +40,6 @@ typedef enum {
     
     self.sortBy = ShopName;
     self.managedObjectContext = [[DevBizDataModel sharedDataModel] mainContext];
-    [self getShopsAscending:true byNameOrEmployeeCount: ShopName withPredicate: nil];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
     [self.navigationController.navigationBar setHidden: false];
@@ -48,32 +48,36 @@ typedef enum {
     self.searchController.definesPresentationContext = true;
     self.searchController.delegate = self;
     self.searchController.searchResultsUpdater = self;
+    self.searchString = [[NSMutableString alloc]init];
+    
+    [self getShopsAscending:true byNameOrEmployeeCount: ShopName withPredicate: [self getPredicate:self.searchString]];
 }
 
 - (IBAction)sortByControlChanged:(UISegmentedControl *)sender {
     // tag0 == CompanyName, tag1 == Employee Count
-    BOOL ascending = [self.sortOrderButton.title  isEqual: @"Ascending"] ? false : true;
+    self.ascending = [self.sortOrderButton.title  isEqual: @"Ascending"] ? false : true;
+    
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
     if (selectedSegment == 0) {
         self.sortBy = ShopName;
-        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy withPredicate: nil];
     } else if (selectedSegment == 1) {
         self.sortBy = ShopEmployeeCount;
-        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy withPredicate: nil];
     }
+    
+    [self getShopsAscending:self.ascending byNameOrEmployeeCount: self.sortBy withPredicate: [self getPredicate:self.searchString]];
 }
 
 - (IBAction)sortOrderButtonPressed:(UIBarButtonItem *)sender {
     if ([self.sortOrderButton.title  isEqualToString: @"Ascending"]) {
         [self.sortOrderButton setTitle: @"Descending"];
         self.ascending = true;
-        [self getShopsAscending:true byNameOrEmployeeCount:self.sortBy withPredicate: nil];
+        [self getShopsAscending:self.ascending byNameOrEmployeeCount: self.sortBy withPredicate: [self getPredicate:self.searchString]];
     } else if ([self.sortOrderButton.title isEqualToString:@"Descending"]) {
         [self.sortOrderButton setTitle: @"Ascending"];
         self.ascending = false;
-        [self getShopsAscending:false byNameOrEmployeeCount:self.sortBy withPredicate: nil];
+        [self getShopsAscending:self.ascending byNameOrEmployeeCount: self.sortBy withPredicate: [self getPredicate:self.searchString]];
     }
 }
 
@@ -122,10 +126,6 @@ typedef enum {
   
 }
 
--(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    
-}
-
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     [self.devShopsSearched removeAllObjects];
     self.devShopsSearched = [self.devShopsToSearch mutableCopy];
@@ -133,26 +133,8 @@ typedef enum {
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self.devShopsSearched removeAllObjects];
-    
-    if (![searchBar.text  isEqual: @""]) {
-        NSPredicate *searchPredicate;
-        NSPredicate *searchCompanyNamePredicate = [NSPredicate predicateWithFormat: @"companyName contains[cd] %@", searchText];
-        NSPredicate *employeesPredicate = [NSPredicate predicateWithFormat: @"numberOfEmployees == %ld", searchText.integerValue];
-        
-        NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-        
-        if ([searchText rangeOfCharacterFromSet:notDigits].location == NSNotFound)
-        {
-            searchPredicate = employeesPredicate;
-        } else {
-            searchPredicate = searchCompanyNamePredicate;
-        }
-        
-        self.devShopsSearched = [[self.devShopsToSearch filteredArrayUsingPredicate: searchPredicate]mutableCopy];
-    } else {
-        self.devShopsSearched = [self.devShopsToSearch mutableCopy];
-    }
-    
+    self.searchString = [searchText mutableCopy];
+    [self getShopsAscending:self.ascending byNameOrEmployeeCount:self.sortBy withPredicate:[self getPredicate:searchText]];
     [self.tableView reloadData];
 }
 
@@ -181,6 +163,24 @@ typedef enum {
     self.devShopsToSearch = [self.fetchedResultsController fetchedObjects];
     self.devShopsSearched = [self.devShopsToSearch mutableCopy];
     [self.tableView reloadData];
+}
+
+- (NSPredicate*) getPredicate:(NSString*)searchString
+{
+    if (searchString.length == 0) {
+        return nil;
+    }
+    
+    NSMutableArray* predicates = [NSMutableArray arrayWithCapacity:3];
+    [predicates addObject:[NSPredicate predicateWithFormat:@"companyName contains[cd] %@", searchString]];
+    
+    NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    if ([searchString rangeOfCharacterFromSet:notDigits].location == NSNotFound)
+    {
+        [predicates addObject:[NSPredicate predicateWithFormat:@"numberOfEmployees == %ld", searchString.integerValue]];
+    }
+    
+    return [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
 }
 
 @end
