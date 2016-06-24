@@ -14,13 +14,21 @@ typedef enum {
     ShopEmployeeCount
 }SortBy;
 
-@interface CompaniesTableViewController () <NSFetchedResultsControllerDelegate>
+@interface CompaniesTableViewController () <NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
 
 @property NSFetchedResultsController *fetchedResultsController;
+@property UISearchController *searchController;
+
 @property DevShop *devShopToPass;
+
 @property SortBy sortBy;
+@property BOOL  ascending;
+
+@property NSMutableArray *devShopsSearched;
+@property NSArray * devShopsToSearch;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortOrderButton;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -31,7 +39,15 @@ typedef enum {
     
     self.sortBy = ShopName;
     self.managedObjectContext = [[DevBizDataModel sharedDataModel] mainContext];
-    [self getShopsAscending:true byNameOrEmployeeCount: ShopName];
+    [self getShopsAscending:true byNameOrEmployeeCount: ShopName withPredicate: nil];
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
+    [self.navigationController.navigationBar setHidden: false];
+    self.searchController.hidesNavigationBarDuringPresentation = false;
+    self.searchController.dimsBackgroundDuringPresentation = false;
+    self.searchController.definesPresentationContext = true;
+    self.searchController.delegate = self;
+    self.searchController.searchResultsUpdater = self;
 }
 
 - (IBAction)sortByControlChanged:(UISegmentedControl *)sender {
@@ -42,10 +58,10 @@ typedef enum {
     
     if (selectedSegment == 0) {
         self.sortBy = ShopName;
-        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy];
+        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy withPredicate: nil];
     } else if (selectedSegment == 1) {
         self.sortBy = ShopEmployeeCount;
-        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy];
+        [self getShopsAscending: ascending byNameOrEmployeeCount:self.sortBy withPredicate: nil];
     }
 }
 
@@ -53,10 +69,12 @@ typedef enum {
 - (IBAction)sortOrderButtonPressed:(UIBarButtonItem *)sender {
     if ([self.sortOrderButton.title  isEqualToString: @"Ascending"]) {
         [self.sortOrderButton setTitle: @"Descending"];
-        [self getShopsAscending:true byNameOrEmployeeCount:self.sortBy];
+        self.ascending = true;
+        [self getShopsAscending:true byNameOrEmployeeCount:self.sortBy withPredicate: nil];
     } else if ([self.sortOrderButton.title isEqualToString:@"Descending"]) {
         [self.sortOrderButton setTitle: @"Ascending"];
-        [self getShopsAscending:false byNameOrEmployeeCount:self.sortBy];
+        self.ascending = false;
+        [self getShopsAscending:false byNameOrEmployeeCount:self.sortBy withPredicate: nil];
     }
 }
 
@@ -69,14 +87,17 @@ typedef enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.fetchedResultsController.sections[section] numberOfObjects];
+    // TODO: If the search bar is active then take this from dev shopssearched.
+    
+    return self.devShopsSearched.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"shopCell" forIndexPath:indexPath];
     
-    DevShop *shop = (DevShop*)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    // TODO: If searchcontroller is active then take the dev shop name from the searched shops
+    DevShop *shop = (DevShop*)[self.devShopsSearched objectAtIndex:indexPath.row];
     
     cell.textLabel.text = shop.companyName;
     cell.detailTextLabel.text = [NSString stringWithFormat: @"Employees: %@", shop.numberOfEmployees];
@@ -100,7 +121,32 @@ typedef enum {
     }
 }
 
-- (void)getShopsAscending:(BOOL)ascending byNameOrEmployeeCount:(SortBy)sortType {
+#pragma mark - Search
+// TODO: DO SEARCH!!
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+  
+}
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    
+}
+
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    self.devShopsSearched = [self.devShopsToSearch copy];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (![searchBar.text  isEqual: @""]) {
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat: @"companyName CONTAINS %@ OR numberOfEmployees == %ld", searchText, searchText.intValue];
+        self.devShopsSearched = [[self.devShopsToSearch filteredArrayUsingPredicate: searchPredicate]copy];
+    } else {
+        self.devShopsSearched = [self.devShopsToSearch copy];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)getShopsAscending:(BOOL)ascending byNameOrEmployeeCount:(SortBy)sortType withPredicate:(NSPredicate*)predicate {
     NSString *sortBy;
     if (sortType == ShopName) {
         sortBy = @"companyName";
@@ -111,6 +157,7 @@ typedef enum {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"DevShop"];
     NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey: sortBy ascending: ascending];
     [request setSortDescriptors:[NSArray arrayWithObject:nameSort]];
+    request.predicate = predicate;
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName: nil];
     
@@ -120,6 +167,8 @@ typedef enum {
     NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
     
     [self setFetchedResultsController: self.fetchedResultsController];
+    self.devShopsToSearch = [self.fetchedResultsController fetchedObjects];
+    self.devShopsSearched = [self.devShopsToSearch copy];
     [self.tableView reloadData];
 }
 
