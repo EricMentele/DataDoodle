@@ -65,7 +65,6 @@ typedef enum {
     }
 }
 
-// TODO: Fix backwards sort for employee number.
 - (IBAction)sortOrderButtonPressed:(UIBarButtonItem *)sender {
     if ([self.sortOrderButton.title  isEqualToString: @"Ascending"]) {
         [self.sortOrderButton setTitle: @"Descending"];
@@ -82,13 +81,10 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return self.fetchedResultsController.sections.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    // TODO: If the search bar is active then take this from dev shopssearched.
-    
     return self.devShopsSearched.count;
 }
 
@@ -96,7 +92,6 @@ typedef enum {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"shopCell" forIndexPath:indexPath];
     
-    // TODO: If searchcontroller is active then take the dev shop name from the searched shops
     DevShop *shop = (DevShop*)[self.devShopsSearched objectAtIndex:indexPath.row];
     
     cell.textLabel.text = shop.companyName;
@@ -132,15 +127,30 @@ typedef enum {
 }
 
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    self.devShopsSearched = [self.devShopsToSearch copy];
+    [self.devShopsSearched removeAllObjects];
+    self.devShopsSearched = [self.devShopsToSearch mutableCopy];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self.devShopsSearched removeAllObjects];
+    
     if (![searchBar.text  isEqual: @""]) {
-        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat: @"companyName CONTAINS %@ OR numberOfEmployees == %ld", searchText, searchText.intValue];
-        self.devShopsSearched = [[self.devShopsToSearch filteredArrayUsingPredicate: searchPredicate]copy];
+        NSPredicate *searchPredicate;
+        NSPredicate *searchCompanyNamePredicate = [NSPredicate predicateWithFormat: @"companyName contains[cd] %@", searchText];
+        NSPredicate *employeesPredicate = [NSPredicate predicateWithFormat: @"numberOfEmployees == %ld", searchText.integerValue];
+        
+        NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+        
+        if ([searchText rangeOfCharacterFromSet:notDigits].location == NSNotFound)
+        {
+            searchPredicate = employeesPredicate;
+        } else {
+            searchPredicate = searchCompanyNamePredicate;
+        }
+        
+        self.devShopsSearched = [[self.devShopsToSearch filteredArrayUsingPredicate: searchPredicate]mutableCopy];
     } else {
-        self.devShopsSearched = [self.devShopsToSearch copy];
+        self.devShopsSearched = [self.devShopsToSearch mutableCopy];
     }
     
     [self.tableView reloadData];
@@ -167,8 +177,9 @@ typedef enum {
     NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
     
     [self setFetchedResultsController: self.fetchedResultsController];
+    [self.devShopsSearched removeAllObjects];
     self.devShopsToSearch = [self.fetchedResultsController fetchedObjects];
-    self.devShopsSearched = [self.devShopsToSearch copy];
+    self.devShopsSearched = [self.devShopsToSearch mutableCopy];
     [self.tableView reloadData];
 }
 
