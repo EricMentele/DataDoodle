@@ -25,9 +25,6 @@ typedef enum {
 @property BOOL  ascending;
 @property NSMutableString *searchString;
 
-@property NSMutableArray *devShopsSearched;
-@property NSArray * devShopsToSearch;
-
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortOrderButton;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
@@ -89,14 +86,14 @@ typedef enum {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.devShopsSearched.count;
+    return self.fetchedResultsController.fetchedObjects.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"shopCell" forIndexPath:indexPath];
     
-    DevShop *shop = (DevShop*)[self.devShopsSearched objectAtIndex:indexPath.row];
+    DevShop *shop = (DevShop*)[self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = shop.companyName;
     cell.detailTextLabel.text = [NSString stringWithFormat: @"Employees: %@", shop.numberOfEmployees];
@@ -126,13 +123,7 @@ typedef enum {
   
 }
 
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    [self.devShopsSearched removeAllObjects];
-    self.devShopsSearched = [self.devShopsToSearch mutableCopy];
-}
-
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self.devShopsSearched removeAllObjects];
     self.searchString = [searchText mutableCopy];
     [self getShopsAscending:self.ascending byNameOrEmployeeCount:self.sortBy withPredicate:[self getPredicate:searchText]];
     [self.tableView reloadData];
@@ -159,9 +150,6 @@ typedef enum {
     NSAssert([self.fetchedResultsController performFetch:&error], @"Error fetching developers: %@\n%@", [error localizedDescription], [error userInfo]);
     
     [self setFetchedResultsController: self.fetchedResultsController];
-    [self.devShopsSearched removeAllObjects];
-    self.devShopsToSearch = [self.fetchedResultsController fetchedObjects];
-    self.devShopsSearched = [self.devShopsToSearch mutableCopy];
     [self.tableView reloadData];
 }
 
